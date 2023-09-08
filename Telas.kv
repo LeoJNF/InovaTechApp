@@ -1,0 +1,87 @@
+Screen:
+    TelaLogin:
+
+<TelaLogin>:
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDTopAppBar:
+            title: 'FP'
+            left_action_items: [["finance", lambda x: x]]
+            right_action_items: [["menu", lambda x: root.AbrirMenu()]]
+
+        MDFloatLayout:
+            MDIconButton:
+                icon: 'account-circle'
+                pos_hint: {'center_x': .5, 'center_y': .75}
+                icon_size: '78sp'
+            MDTextField:
+                hint_text: 'Email:'
+                size_hint: .7, .13
+                pos_hint: {'center_x': .5, 'center_y': .6}
+            MDTextField:
+                hint_text: 'Senha:'
+                size_hint: .7, .13
+                pos_hint: {'center_x': .5, 'center_y': .5}
+            MDRaisedButton:
+                text: 'Login'
+                size_hint: .7, .05
+                pos_hint:{'center_x': .5, 'center_y': .4}
+            MDTextButton:
+                text: 'Recuperar senha'
+                pos_hint:{'center_x': .5, 'center_y': .33}
+                on_release: root.AbrirRecSenha()
+
+<MenuLogin>
+    orientation: 'vertical'
+    size_hint: .5, .5
+    pos_hint:{'center_x': .75, 'center_y': .75}
+
+<EsqueciSenha>
+    orientation: 'vertical'
+    size_hint: .75, .5
+    pos_hint:{'center_x': .5, 'center_y': .4}
+
+    MDBoxLayout:
+        size_hint_y: .2
+        padding: [25,0,25,0]
+        md_bg_color: app.theme_cls.primary_color
+
+        MDLabel:
+            text:'Atualizar senha'
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+
+        MDIconButton:
+            icon: 'close'
+            theme_text_color: 'Custom'
+            text_color: 1,1,1,1
+            on_release: root.FecharRecSenha()
+
+
+    MDFloatLayout:
+
+        MDTextField:
+            pos_hint:{'center_x': .5, 'center_y': .75}
+            size_hint_x: .9
+            hint_text: 'Código enviado para o email'
+        MDTextField:
+            pos_hint:{'center_x': .5, 'center_y': .55}
+            size_hint_x: .9
+            hint_text: 'Nova senha'
+        MDTextField:
+            pos_hint:{'center_x': .5, 'center_y': .35}
+            size_hint_x: .9
+            hint_text: 'Confirmação'
+        MDRaisedButton:
+            pos_hint:{'center_x': .5, 'center_y': .1}
+            size_hint_x: .9
+            text: 'Recuperar'
+
+<TelaIncial>:
+
+
+
+
+
+
+
