@@ -3,9 +3,9 @@ from kivy.lang import Builder
 from kivymd.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
 from kivymd.uix.card import MDCard
+from kivy.properties import ObjectProperty
 
 Window.size = (350, 580)
-
 
 class EsqueciSenha(MDCard):
     def FecharRecSenha(self):
@@ -25,12 +25,10 @@ class TelaLogin(FloatLayout):
 
 class MyApp(MDApp):
     def build(self):
-        self.theme_cls.theme_style = "Dark"
-        self.theme_cls.primary_palette = "Purple"
+      #  self.theme_cls.primary_palette = "Blue"
         kv = Builder.load_file("telas.kv")
         screen = kv
         return screen
-
 
 
 if __name__ == "__main__":

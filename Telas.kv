@@ -2,12 +2,15 @@ Screen:
     TelaLogin:
 
 <TelaLogin>:
+
     MDBoxLayout:
+        md_bg_color: '#d2f2f7'
         orientation: 'vertical'
         MDTopAppBar:
             title: 'FP'
             left_action_items: [["finance", lambda x: x]]
             right_action_items: [["menu", lambda x: root.AbrirMenu()]]
+
 
         MDFloatLayout:
             MDIconButton:
@@ -15,17 +18,29 @@ Screen:
                 pos_hint: {'center_x': .5, 'center_y': .75}
                 icon_size: '78sp'
             MDTextField:
-                hint_text: 'Email:'
+                hint_text: 'Email'
                 size_hint: .7, .13
                 pos_hint: {'center_x': .5, 'center_y': .6}
             MDTextField:
-                hint_text: 'Senha:'
+                id: text_senha
+                hint_text: 'Senha'
                 size_hint: .7, .13
                 pos_hint: {'center_x': .5, 'center_y': .5}
+                password: True
+            MDIconButton:
+                icon: "eye-off"
+                pos_hint: {"center_y": .5}
+                pos_hint: {'center_x': .8, 'center_y': .5}
+                theme_text_color: "Hint"
+                on_release:
+                    self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+                    text_senha.password = False if text_senha.password is True else True
             MDRaisedButton:
                 text: 'Login'
+                text_color: 'black'
                 size_hint: .7, .05
                 pos_hint:{'center_x': .5, 'center_y': .4}
+                md_bg_color: "white"
             MDTextButton:
                 text: 'Recuperar senha'
                 pos_hint:{'center_x': .5, 'center_y': .33}
@@ -76,6 +91,7 @@ Screen:
             pos_hint:{'center_x': .5, 'center_y': .1}
             size_hint_x: .9
             text: 'Recuperar'
+
 
 <TelaIncial>:
 
