@@ -4,7 +4,7 @@ Screen:
 <TelaLogin>:
 
     MDBoxLayout:
-        md_bg_color: '#d2f2f7'
+
         orientation: 'vertical'
         MDTopAppBar:
             title: 'FP'
@@ -18,6 +18,7 @@ Screen:
                 pos_hint: {'center_x': .5, 'center_y': .75}
                 icon_size: '78sp'
             MDTextField:
+                id: text_email
                 hint_text: 'Email'
                 size_hint: .7, .13
                 pos_hint: {'center_x': .5, 'center_y': .6}
@@ -41,6 +42,7 @@ Screen:
                 size_hint: .7, .05
                 pos_hint:{'center_x': .5, 'center_y': .4}
                 md_bg_color: "white"
+                on_release: root.login()
             MDTextButton:
                 text: 'Recuperar senha'
                 pos_hint:{'center_x': .5, 'center_y': .33}
