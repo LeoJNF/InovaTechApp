@@ -1,52 +1,47 @@
-Screen:
+TelaManeger:
     TelaLogin:
+    TelaInicial:
 
 <TelaLogin>:
+    name: 'TelaLogin'
 
-    MDBoxLayout:
+    MDFloatLayout:
+        md_bg_color: '#dfeff2'
+        MDIconButton:
+            icon: 'account-circle'
+            pos_hint: {'center_x': .5, 'center_y': .75}
+            icon_size: '78sp'
+        MDTextField:
+            id: text_email
+            hint_text: 'Email'
+            size_hint: .7, .13
+            pos_hint: {'center_x': .5, 'center_y': .6}
+        MDTextField:
+            id: text_senha
+            hint_text: 'Senha'
+            size_hint: .7, .13
+            pos_hint: {'center_x': .5, 'center_y': .5}
+            password: True
+        MDIconButton:
+            icon: "eye-off"
+            pos_hint: {"center_y": .5}
+            pos_hint: {'center_x': .8, 'center_y': .5}
+            theme_text_color: "Hint"
+            on_release:
+                self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+                text_senha.password = False if text_senha.password is True else True
+        MDRaisedButton:
+            text: 'Login'
+            text_color: 'black'
+            size_hint: .7, .05
+            pos_hint:{'center_x': .5, 'center_y': .4}
+            md_bg_color: "white"
+            on_release: if root.login(): app.root.current = 'TelaInicial'
+        MDTextButton:
+            text: 'Recuperar senha'
+            pos_hint:{'center_x': .5, 'center_y': .33}
+            on_release: root.AbrirRecSenha()
 
-        orientation: 'vertical'
-        MDTopAppBar:
-            title: 'FP'
-            left_action_items: [["finance", lambda x: x]]
-            right_action_items: [["menu", lambda x: root.AbrirMenu()]]
-
-
-        MDFloatLayout:
-            MDIconButton:
-                icon: 'account-circle'
-                pos_hint: {'center_x': .5, 'center_y': .75}
-                icon_size: '78sp'
-            MDTextField:
-                id: text_email
-                hint_text: 'Email'
-                size_hint: .7, .13
-                pos_hint: {'center_x': .5, 'center_y': .6}
-            MDTextField:
-                id: text_senha
-                hint_text: 'Senha'
-                size_hint: .7, .13
-                pos_hint: {'center_x': .5, 'center_y': .5}
-                password: True
-            MDIconButton:
-                icon: "eye-off"
-                pos_hint: {"center_y": .5}
-                pos_hint: {'center_x': .8, 'center_y': .5}
-                theme_text_color: "Hint"
-                on_release:
-                    self.icon = "eye" if self.icon == "eye-off" else "eye-off"
-                    text_senha.password = False if text_senha.password is True else True
-            MDRaisedButton:
-                text: 'Login'
-                text_color: 'black'
-                size_hint: .7, .05
-                pos_hint:{'center_x': .5, 'center_y': .4}
-                md_bg_color: "white"
-                on_release: root.login()
-            MDTextButton:
-                text: 'Recuperar senha'
-                pos_hint:{'center_x': .5, 'center_y': .33}
-                on_release: root.AbrirRecSenha()
 
 <MenuLogin>
     orientation: 'vertical'
@@ -95,7 +90,47 @@ Screen:
             text: 'Recuperar'
 
 
-<TelaIncial>:
+<TelaInicial>:
+    name: 'TelaInicial'
+    MDFloatLayout:
+        md_bg_color: '#dfeff2'
+        MDTopAppBar:
+            pos_hint:{'center_x': .5, 'center_y': .95}
+            right_action_items: [['menu', lambda x: menu.set_state("open")]]
+            left_action_items: [['finance']]
+        MDTopAppBar:
+            pos_hint:{'center_x': .5, 'center_y': .05}
+            right_action_items: [['account']]
+        MDLabel:
+            text: 'Buscar Funcionário'
+            pos_hint:{'center_x': .55, 'center_y': .8}
+        MDTextField:
+            hint_text: 'Nome/CPF'
+            mode: 'rectangle'
+            pos_hint:{'center_x': .5, 'center_y': .73}
+            size_hint_x: .9
+            size_hint_Y: .3
+
+    MDNavigationDrawer:
+        id: menu
+        radius: (0, 16, 16, 0)
+        MDNavigationDrawerLabel:
+            text: "Funcionários"
+            pos_hint:{'center_x': .7, 'center_y': .8}
+        MDNavigationDrawerLabel:
+            text: "Relatórios"
+            pos_hint:{'center_x': .6, 'center_y': .7}
+        MDNavigationDrawerLabel:
+            text: "Financeiro"
+            pos_hint:{'center_x': .5, 'center_y': .6}
+        MDNavigationDrawerLabel:
+            text: "Configurações"
+            pos_hint:{'center_x': .4, 'center_y': .5}
+        ContentNavigationDrawer:
+
+
+
+
 
 
 

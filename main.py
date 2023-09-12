@@ -1,10 +1,11 @@
 from kivymd.app import MDApp
 from kivy.lang import Builder
-from kivymd.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
 from kivymd.uix.card import MDCard
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
+from kivymd.uix.boxlayout import MDBoxLayout
+from kivy.uix.screenmanager import Screen, ScreenManager
 from random import sample
 
 
@@ -22,6 +23,10 @@ conexao = pyodbc.connect(dados_conexao)
 cursor = conexao.cursor()
 
 Window.size = (350, 580)
+
+
+class TelaManeger(ScreenManager):
+    pass
 
 
 class EsqueciSenha(MDCard):
@@ -42,37 +47,50 @@ class EsqueciSenha(MDCard):
         email.Send()
         print("Foi")
 
-class MenuLogin(MDCard):
-    pass
 
-
-class TelaLogin(FloatLayout):
+class TelaLogin(Screen):
     def AbrirRecSenha(self):
-        self.alerta = MDDialog(title='Erro', text='Informe seu email para continuar',
-                               buttons=[MDFlatButton(text='Ok',
-                                                     on_release=self.liberar)])
+        self.alertaum = MDDialog(title='Erro',
+                                 text=f'Informe seu email para continuar',
+                                 buttons=[MDFlatButton(text='Ok',
+                                                       on_release=self.liberar)])
         emailfuncionario = str(self.ids.text_email.text)
         if emailfuncionario:
             self.add_widget(EsqueciSenha())
         else:
-            self.alerta.open()
+            self.alertaum.open()
 
     def liberar(self, obj):
-        self.alerta.dismiss()
+        try:
+            self.alertaum.dismiss()
+        except:
+            self.alertadois.dismiss()
 
-    def AbrirMenu(self):
-        self.add_widget(MenuLogin())
 
     def login(self):
+        self.alertadois = MDDialog(title='Erro Login',
+                              text=f'Email ou senha incorreto',
+                              buttons=[MDFlatButton(text='Ok',
+                                                    on_release=self.liberar)])
         emailfuncionario = str(self.ids.text_email.text)
         senhafuncionario = str(self.ids.text_senha.text)
         consultaEmail = f"""select Email from funcionarios where Email in ('{emailfuncionario}')"""
         consultaSenha = f"""select Senha from funcionarios where Senha in ('{senhafuncionario}')"""
 
         if cursor.execute(consultaEmail).fetchval() and cursor.execute(consultaSenha).fetchval():
-            print("Conectado com sucesso")
+
+            return True
         else:
-            print("Email ou senha incorreto")
+            try:
+                self.alertadois.open()
+            except:
+                print("Erro login")
+
+class ContentNavigationDrawer(MDBoxLayout):
+    pass
+
+class TelaInicial(Screen):
+    ...
 
 class MyApp(MDApp):
     def build(self):
