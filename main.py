@@ -4,15 +4,16 @@ from kivy.core.window import Window
 from kivymd.uix.card import MDCard
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDFlatButton
-from kivymd.uix.boxlayout import MDBoxLayout
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.properties import ObjectProperty
 from random import sample
 
 
 import pyodbc
 import win32com.client as win32
 
-dados_conexao = (
+"""dados_conexao = (
     "Driver={SQL Server};"
     "Server=DESKTOP-9LCHIPD;"
     "Database=Teste;"
@@ -20,13 +21,54 @@ dados_conexao = (
 
 conexao = pyodbc.connect(dados_conexao)
 
-cursor = conexao.cursor()
+cursor = conexao.cursor()"""
 
 Window.size = (350, 580)
 
 
-class TelaManeger(ScreenManager):
+class TelaManager(ScreenManager):
     pass
+
+
+class TelaLogin(Screen):
+    def AbrirRecSenha(self):
+        self.alertaum = MDDialog(title='Erro',
+                                 text=f'Informe seu email para continuar',
+                                 buttons=[MDFlatButton(text='Ok',
+                                                       on_release=self.liberar)])
+        emailfuncionario = str(self.ids.text_email.text)
+        if emailfuncionario:
+            self.add_widget(EsqueciSenha())
+        else:
+            self.alertaum.open()
+
+    def liberar(self, obj):
+        self.alertaum.dismiss()
+
+
+
+    def login(self):
+        self.alertadois = MDDialog(title='Erro Login',
+                              text=f'Email ou senha incorreto',
+                              buttons=[MDFlatButton(text='Ok',
+                                                    on_release=self.liberardois)])
+        emailfuncionario = str(self.ids.text_email.text)
+        senhafuncionario = str(self.ids.text_senha.text)
+        consultaEmail = f"""select Email from funcionarios where Email in ('{emailfuncionario}')"""
+        consultaSenha = f"""select Senha from funcionarios where Senha in ('{senhafuncionario}')"""
+
+        """if cursor.execute(consultaEmail).fetchval() and cursor.execute(consultaSenha).fetchval():
+
+            return True
+        else:
+            try:
+                self.alertadois.open()
+            except:
+                print("Erro login")"""
+        return True
+
+    def liberardois(self, obj):
+        self.alertadois.dismiss()
 
 
 class EsqueciSenha(MDCard):
@@ -48,54 +90,38 @@ class EsqueciSenha(MDCard):
         print("Foi")
 
 
-class TelaLogin(Screen):
-    def AbrirRecSenha(self):
-        self.alertaum = MDDialog(title='Erro',
-                                 text=f'Informe seu email para continuar',
-                                 buttons=[MDFlatButton(text='Ok',
-                                                       on_release=self.liberar)])
-        emailfuncionario = str(self.ids.text_email.text)
-        if emailfuncionario:
-            self.add_widget(EsqueciSenha())
-        else:
-            self.alertaum.open()
-
-    def liberar(self, obj):
-        try:
-            self.alertaum.dismiss()
-        except:
-            self.alertadois.dismiss()
+class TelaInicial(Screen):
+    def login_config(self):
+        print("teste")
 
 
-    def login(self):
-        self.alertadois = MDDialog(title='Erro Login',
-                              text=f'Email ou senha incorreto',
-                              buttons=[MDFlatButton(text='Ok',
-                                                    on_release=self.liberar)])
-        emailfuncionario = str(self.ids.text_email.text)
-        senhafuncionario = str(self.ids.text_senha.text)
-        consultaEmail = f"""select Email from funcionarios where Email in ('{emailfuncionario}')"""
-        consultaSenha = f"""select Senha from funcionarios where Senha in ('{senhafuncionario}')"""
+class ContentNavigationDrawer(BoxLayout):
+    screen_manager = ObjectProperty()
+    nav_drawer = ObjectProperty()
 
-        if cursor.execute(consultaEmail).fetchval() and cursor.execute(consultaSenha).fetchval():
 
-            return True
-        else:
-            try:
-                self.alertadois.open()
-            except:
-                print("Erro login")
+class TelaFuncionarios(Screen):
+    def test(self):
+        print('teste')
 
-class ContentNavigationDrawer(MDBoxLayout):
+
+class TelaRelatorios(Screen):
     pass
 
-class TelaInicial(Screen):
-    ...
+
+class TelaFinanceiro(Screen):
+    pass
+
+
+class TelaConfiguracoes(Screen):
+    pass
+
 
 class MyApp(MDApp):
     def build(self):
         kv = Builder.load_file("telas.kv")
         screen = kv
+        self.theme_cls.primary_palette = "Blue"
         return screen
 
 

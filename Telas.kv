@@ -1,12 +1,24 @@
-TelaManeger:
+TelaManager:
+
     TelaLogin:
     TelaInicial:
+    TelaFuncionarios:
+    TelaRelatorios:
+    TelaFinanceiro:
+    TelaConfiguracoes:
+
+<DrawerClickableItem@MDNavigationDrawerItem>
+    focus_color: "#adc5f0"
+    text_color: "#4a4939"
+    icon_color: "#4a4939"
+    ripple_color: "#c5bdd2"
+
+
 
 <TelaLogin>:
     name: 'TelaLogin'
-
+    id: 'Login'
     MDFloatLayout:
-        md_bg_color: '#dfeff2'
         MDIconButton:
             icon: 'account-circle'
             pos_hint: {'center_x': .5, 'center_y': .75}
@@ -35,18 +47,12 @@ TelaManeger:
             text_color: 'black'
             size_hint: .7, .05
             pos_hint:{'center_x': .5, 'center_y': .4}
-            md_bg_color: "white"
             on_release: if root.login(): app.root.current = 'TelaInicial'
         MDTextButton:
             text: 'Recuperar senha'
             pos_hint:{'center_x': .5, 'center_y': .33}
             on_release: root.AbrirRecSenha()
 
-
-<MenuLogin>
-    orientation: 'vertical'
-    size_hint: .5, .5
-    pos_hint:{'center_x': .75, 'center_y': .75}
 
 <EsqueciSenha>
     orientation: 'vertical'
@@ -90,17 +96,15 @@ TelaManeger:
             text: 'Recuperar'
 
 
+
 <TelaInicial>:
+    id: TelaInicial
     name: 'TelaInicial'
     MDFloatLayout:
-        md_bg_color: '#dfeff2'
         MDTopAppBar:
             pos_hint:{'center_x': .5, 'center_y': .95}
-            right_action_items: [['menu', lambda x: menu.set_state("open")]]
-            left_action_items: [['finance']]
-        MDTopAppBar:
-            pos_hint:{'center_x': .5, 'center_y': .05}
-            right_action_items: [['account']]
+            left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+            right_action_items: [['account', lambda x: root.login_config()]]
         MDLabel:
             text: 'Buscar Funcionário'
             pos_hint:{'center_x': .55, 'center_y': .8}
@@ -111,22 +115,150 @@ TelaManeger:
             size_hint_x: .9
             size_hint_Y: .3
 
-    MDNavigationDrawer:
-        id: menu
-        radius: (0, 16, 16, 0)
-        MDNavigationDrawerLabel:
+        MDNavigationLayout:
+
+
+            MDScreenManager:
+                id: screen_manager
+            MDNavigationDrawer:
+                id: nav_drawer
+                radius: (0, 16, 16, 0)
+
+                ContentNavigationDrawer:
+                    screen_manager: screen_manager
+                    nav_drawer: nav_drawer
+
+
+
+
+<ContentNavigationDrawer>:
+    MDNavigationDrawerMenu:
+        MDNavigationDrawerHeader:
+            title: 'FL'
+        DrawerClickableItem:
             text: "Funcionários"
-            pos_hint:{'center_x': .7, 'center_y': .8}
-        MDNavigationDrawerLabel:
+            icon: 'account-search-outline'
+            on_release:
+                root.nav_drawer.set_state("close")
+                app.root.current = 'Funcionarios'
+        DrawerClickableItem:
+            icon: 'finance'
             text: "Relatórios"
-            pos_hint:{'center_x': .6, 'center_y': .7}
-        MDNavigationDrawerLabel:
+            on_release:
+                root.nav_drawer.set_state("close")
+                app.root.current = 'Relatorios'
+        DrawerClickableItem:
+            icon: 'currency-usd'
             text: "Financeiro"
-            pos_hint:{'center_x': .5, 'center_y': .6}
-        MDNavigationDrawerLabel:
+            on_release:
+                root.nav_drawer.set_state("close")
+                app.root.current = 'Financeiro'
+        DrawerClickableItem:
+            icon: 'cog-outline'
             text: "Configurações"
-            pos_hint:{'center_x': .4, 'center_y': .5}
-        ContentNavigationDrawer:
+            on_release:
+                root.nav_drawer.set_state("close")
+                app.root.current = 'Configuracoes'
+
+
+<TelaFuncionarios>
+    name: 'Funcionarios'
+    MDFloatLayout:
+        MDTopAppBar:
+            pos_hint:{'center_x': .5, 'center_y': .95}
+            left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+            right_action_items: [['account', lambda x: root.login_config()]]
+        MDLabel:
+            text: "Tela Funcionarios"
+            halign: "center"
+        MDNavigationLayout:
+
+            MDScreenManager:
+                id: screen_manager
+            MDNavigationDrawer:
+                id: nav_drawer
+                radius: (0, 16, 16, 0)
+
+                ContentNavigationDrawer:
+                    screen_manager: screen_manager
+                    nav_drawer: nav_drawer
+
+<TelaRelatorios>
+    name: 'Relatorios'
+    MDFloatLayout:
+        MDTopAppBar:
+            pos_hint:{'center_x': .5, 'center_y': .95}
+            left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+            right_action_items: [['account', lambda x: root.login_config()]]
+        MDLabel:
+            text: "Tela Relatórios"
+            halign: "center"
+        MDNavigationLayout:
+
+            MDScreenManager:
+                id: screen_manager
+            MDNavigationDrawer:
+                id: nav_drawer
+                radius: (0, 16, 16, 0)
+
+                ContentNavigationDrawer:
+                    screen_manager: screen_manager
+                    nav_drawer: nav_drawer
+
+
+<TelaFinanceiro>
+    name: 'Financeiro'
+    MDFloatLayout:
+        MDTopAppBar:
+            pos_hint:{'center_x': .5, 'center_y': .95}
+            left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+            right_action_items: [['account', lambda x: root.login_config()]]
+        MDLabel:
+            text: "Tela Financeiro"
+            halign: "center"
+    MDNavigationLayout:
+
+        MDScreenManager:
+            id: screen_manager
+        MDNavigationDrawer:
+            id: nav_drawer
+            radius: (0, 16, 16, 0)
+
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+
+<TelaConfiguracoes>
+    name: 'Configuracoes'
+    MDFloatLayout:
+        MDTopAppBar:
+            pos_hint:{'center_x': .5, 'center_y': .95}
+            left_action_items: [['menu', lambda x: nav_drawer.set_state("open")]]
+            right_action_items: [['account', lambda x: root.login_config()]]
+        MDLabel:
+            text: "Tela Configuração"
+            halign: "center"
+    MDNavigationLayout:
+
+        MDScreenManager:
+            id: screen_manager
+        MDNavigationDrawer:
+            id: nav_drawer
+            radius: (0, 16, 16, 0)
+
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+
+
+
+
+
+
+
+
+
+
 
 
 
